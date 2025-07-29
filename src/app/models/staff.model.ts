@@ -87,7 +87,7 @@ const StaffSchema = new Schema(
     qualification: { type: String },
     experience: { type: Number },
     address: { type: String },
-    photo: { type: String },
+    photo: { type: String, required: true },
     dateOfJoining: { type: Date },
     isActive: { type: Boolean, default: true },
   },
