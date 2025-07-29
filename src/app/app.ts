@@ -1,18 +1,18 @@
-import cors from "cors";
-import dotenv from "dotenv";
-import express, { Application } from "express";
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express, { Application } from 'express';
 
-dotenv.config();
+dotenv.config({ debug: false });
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).json({
-    status: "success",
-    message: "Welcome to Murir Tin Tour and Travels!",
+    status: 'success',
+    message: 'Welcome to Paithara High School!',
   });
 });
 
