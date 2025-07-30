@@ -1,8 +1,8 @@
 // src/app/services/auth.service.ts
 import AdminModel from '../models/auth.model';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { IAdmin } from '../interfaces/auth.interface';
-
+import ms from 'ms';
 export const createAdmin = async (data: IAdmin) => {
   const existingAdmin = await AdminModel.findOne({ email: data.email });
   if (existingAdmin) throw new Error('Admin already exists');
@@ -19,9 +19,15 @@ export const loginAdmin = async (email: string, password: string) => {
   const isMatch = await admin.comparePassword(password);
   if (!isMatch) throw new Error('Invalid credentials');
 
-  const token = jwt.sign({ id: admin._id, email: admin.email }, process.env.JWT_SECRET as string, {
-    expiresIn: process.env.JWT_EXPIRES_IN ?? '1h',
-  });
+  const signOptions: SignOptions = {
+    expiresIn: (process.env.JWT_EXPIRES_IN as ms.StringValue) || '1h',
+  };
+
+  const token = jwt.sign(
+    { id: admin._id, email: admin.email },
+    process.env.JWT_SECRET as string,
+    signOptions,
+  );
 
   return { token };
 };

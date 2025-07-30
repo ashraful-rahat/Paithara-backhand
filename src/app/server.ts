@@ -1,10 +1,15 @@
-import dotenv from "dotenv";
-import mongoose from "mongoose";
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
-import config from "./config";
-import app from "./app";
+import config from './config';
+import app from './app';
 
 dotenv.config();
+
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET is not defined in your .env file');
+}
+const jwtSecret: string = process.env.JWT_SECRET; // now typed string
 
 // Get the PORT and DB_URL from config (loaded from .env)
 const PORT = config.port || 5000;
@@ -13,12 +18,12 @@ const DB_URL = config.database_url as string;
 async function main() {
   try {
     await mongoose.connect(DB_URL);
-    console.log("✅ Connected to MongoDB");
+    console.log('✅ Connected to MongoDB');
     app.listen(PORT, () => {
       console.log(`🚀 Server is running at http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
+    console.error('❌ MongoDB connection error:', error);
   }
 }
 
