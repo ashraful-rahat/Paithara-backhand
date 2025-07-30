@@ -62,7 +62,7 @@ const classSubjectSchema = new Schema(
 const StaffSchema = new Schema(
   {
     name: { type: String, required: true },
-    email: { type: String },
+    email: { type: String, required: true },
     phone: { type: String },
     category: {
       type: String,
