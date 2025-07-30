@@ -113,7 +113,6 @@ const deleteStaff = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
-console.log('httpStatus module:', httpStatus);
 
 export const staffController = {
   createStaff,
