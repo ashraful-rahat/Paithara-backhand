@@ -16,7 +16,7 @@ const StudentSchema = new mongoose.Schema(
     gender: { type: String, enum: ['ছাত্র', 'ছাত্রী'], required: true },
     fatherName: { type: String, required: true },
     motherName: { type: String, required: true },
-    guardianNumber: { type: String, required: true }, /
+    guardianNumber: { type: String, required: true }, // ✅ New field
     address: { type: String },
     photo: { type: String },
     dateOfBirth: { type: Date },
