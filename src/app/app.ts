@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import { staffRoutes } from './routes/staff.route';
 import { studentRoutes } from './routes/student.routes';
+import { authRoutes } from './routes/auth.routes';
 
 dotenv.config({ debug: false });
 
@@ -14,6 +15,7 @@ app.use(express.json());
 // Routes
 app.use('/api/v1/staff', staffRoutes);
 app.use('/api/v1/student', studentRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({
