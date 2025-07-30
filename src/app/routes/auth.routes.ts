@@ -1,8 +1,10 @@
+// src/app/routes/auth.routes.ts
 import express from 'express';
-import { adminLogin } from '../controller/auth.controller';
+import { authController } from '../controller/auth.controller';
 
 const router = express.Router();
 
-router.post('/login', adminLogin);
+router.post('/create', authController.createAdmin);
+router.post('/login', authController.loginAdmin);
 
 export const authRoutes = router;
