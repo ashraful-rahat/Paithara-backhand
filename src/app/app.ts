@@ -15,7 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/staff', staffRoutes);
-app.use('/api/v1/student', studentRoutes);
+app.use('/api/v1/students', studentRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/notices', noticeRoutes);
 

@@ -4,24 +4,43 @@ import httpStatus from 'http-status';
 
 const createStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // Check and log the received body and file from the frontend
+    console.log('Received Body:', req.body);
+    console.log('Received File:', req.file);
+
+    // Ensure req.file exists before trying to access its path
     const fileUrl = (req.file as any)?.path;
 
     if (!fileUrl) {
+      console.error('Error: Photo upload failed or missing.');
       throw new Error('Photo upload failed or missing');
     }
 
+    // Log the file URL to confirm it was uploaded successfully
+    console.log('File uploaded successfully to:', fileUrl);
+
+    // The data object to be passed to the service
     const data = {
       ...req.body,
       photo: fileUrl,
     };
 
+    // Log the final data object before sending it to the database
+    console.log('Final data to be saved:', data);
+
     const result = await studentService.createStudent(data);
+
+    // Log the result from the service before sending the final response
+    console.log('Database save result:', result);
+
     res.status(httpStatus.CREATED).json({
       status: 'success',
       message: 'Student created successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
+    // Log the specific error that caused the 500 status
+    console.error('Caught an error in createStudent controller:', error.message);
     next(error);
   }
 };

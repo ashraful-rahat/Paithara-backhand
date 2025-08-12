@@ -1,6 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { IStudent } from '../interfaces/student.interface';
 
-const StudentSchema = new mongoose.Schema(
+const StudentSchema = new mongoose.Schema<IStudent & Document>(
   {
     name: { type: String, required: true },
     roll: { type: Number, required: true },
@@ -12,11 +13,15 @@ const StudentSchema = new mongoose.Schema(
     group: {
       type: String,
       enum: ['বিজ্ঞান', 'মানবিক', 'ব্যবসায়', 'সাধারণ'],
+
+      required: function (this: IStudent) {
+        return ['৯ম', '১০ম'].includes(this.class);
+      },
     },
     gender: { type: String, enum: ['ছাত্র', 'ছাত্রী'], required: true },
     fatherName: { type: String, required: true },
     motherName: { type: String, required: true },
-    guardianNumber: { type: String, required: true }, // ✅ New field
+    guardianNumber: { type: String, required: true },
     address: { type: String },
     photo: { type: String },
     dateOfBirth: { type: Date },
@@ -25,6 +30,6 @@ const StudentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const StudentModel = mongoose.model('Student', StudentSchema);
+const StudentModel = mongoose.model<IStudent & Document>('Student', StudentSchema);
 
 export default StudentModel;
