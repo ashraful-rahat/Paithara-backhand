@@ -1,4 +1,4 @@
-import { IStudent } from '../interfaces/tudent.interface';
+import { IStudent } from '../interfaces/student.interface';
 import StudentModel from '../models/student.model';
 
 const createStudent = async (data: IStudent) => {
