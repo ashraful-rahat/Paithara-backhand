@@ -6,7 +6,10 @@ const createStaff = async (data: IStaff) => {
 };
 
 const getAllStaff = async () => {
-  return await StaffModel.find().sort({ createdAt: -1 });
+  // .sort() মেথডটি বাদ দেওয়া হয়েছে
+  const result = await StaffModel.find();
+  // ডেটাগুলো মেমরিতে সাজানো হচ্ছে
+  return result.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 };
 
 const getStaffById = async (id: string) => {

@@ -7,7 +7,14 @@ export const noticeService = {
   },
 
   async getAllNotices() {
-    return await Notice.find().sort({ createdAt: -1 });
+    // .sort() মেথডটি বাদ দেওয়া হয়েছে
+    const result = await Notice.find();
+    // ডেটাগুলো মেমরিতে সাজানো হচ্ছে, 'undefined' মানগুলোকেও নিরাপদভাবে পরিচালনা করা হচ্ছে
+    return result.sort((a, b) => {
+      const dateA = a.createdAt || new Date(0);
+      const dateB = b.createdAt || new Date(0);
+      return dateB.getTime() - dateA.getTime();
+    });
   },
 
   async getNoticeById(id: string) {
