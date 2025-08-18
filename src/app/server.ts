@@ -6,27 +6,32 @@ import app from './app';
 
 dotenv.config();
 
-if (!process.env.JWT_SECRET) {
-  throw new Error('JWT_SECRET is not defined in your .env file');
-}
-const jwtSecret: string = process.env.JWT_SECRET;
-
-// Get the PORT and DB_URL from config (loaded from .env)
-const PORT = config.port || 5000;
+// Get the DB_URL from config (loaded from .env)
 const DB_URL = config.database_url as string;
 
-async function main() {
-  try {
-    await mongoose.connect(DB_URL);
-    console.log('✅ Connected to MongoDB');
+// ডেটাবেজ কানেকশন ফাংশন
+const connectDB = async () => {
+    try {
+        await mongoose.connect(DB_URL);
+        console.log('✅ Connected to MongoDB');
+    } catch (error) {
+        console.error('❌ MongoDB connection error:', error);
+        // কানেকশন ফেল করলে অ্যাপ বন্ধ করে দেবে
+        process.exit(1);
+    }
+};
 
-    // ✅ সবসময় লোকাল সার্ভার চালাও
-    app.listen(PORT, () => {
-      console.log(`🚀 Server is running at http://localhost:${PORT}`);
+// লোকাল বা প্রোডাকশন পরিবেশের জন্য সার্ভার চালু
+// এটি লোকাল ডেভেলপমেন্টের জন্য, Vercel এর জন্য নয়।
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = config.port || 5000;
+    connectDB().then(() => {
+        app.listen(PORT, () => {
+            console.log(`🚀 Server is running at http://localhost:${PORT}`);
+        });
     });
-  } catch (error) {
-    console.error('❌ MongoDB connection error:', error);
-  }
 }
 
-main();
+// Vercel-এর জন্য এক্সপ্রেস অ্যাপ এক্সপোর্ট
+// এটি Vercel এর প্রধান এন্ট্রি পয়েন্ট
+export default app;
