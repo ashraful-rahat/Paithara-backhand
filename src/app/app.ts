@@ -10,7 +10,15 @@ dotenv.config({ debug: false });
 
 const app: Application = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000", 
+      "https://paithara-frontend.vercel.app", 
+    ],
+    credentials: true, 
+  })
+);
 app.use(express.json());
 
 // Routes

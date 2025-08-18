@@ -20,18 +20,13 @@ async function main() {
     await mongoose.connect(DB_URL);
     console.log('✅ Connected to MongoDB');
 
-    // শুধু লোকাল ডেভেলপমেন্টে app.listen চালাবেন
-    if (process.env.VERCEL !== '1') {
-      app.listen(PORT, () => {
-        console.log(`🚀 Server is running at http://localhost:${PORT}`);
-      });
-    }
+    // ✅ সবসময় লোকাল সার্ভার চালাও
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running at http://localhost:${PORT}`);
+    });
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
   }
 }
 
 main();
-
-// Vercel এর জন্য app export করুন
-export default app;
