@@ -1,33 +1,49 @@
-// src/app/services/auth.service.ts
-import AdminModel from '../models/auth.model';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { IAdmin } from '../interfaces/auth.interface';
 import ms from 'ms';
-export const createAdmin = async (data: IAdmin) => {
-  const existingAdmin = await AdminModel.findOne({ email: data.email });
-  if (existingAdmin) throw new Error('Admin already exists');
+import { IUser } from '../interfaces/auth.interface';
+import UserModel from '../models/auth.model';
 
-  const admin = new AdminModel(data);
-  await admin.save();
-  return admin;
+export const registerUser = async (data: IUser) => {
+  const existingUser = await UserModel.findOne({ email: data.email });
+  if (existingUser) {
+    throw new Error('User with this email already exists');
+  }
+
+  const user = await UserModel.create(data);
+  return user;
 };
 
-export const loginAdmin = async (email: string, password: string) => {
-  const admin = await AdminModel.findOne({ email });
-  if (!admin) throw new Error('Admin not found');
+export const loginUser = async (email: string, password: string) => {
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    throw new Error('User not found');
+  }
 
-  const isMatch = await admin.comparePassword(password);
-  if (!isMatch) throw new Error('Invalid credentials');
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
+    throw new Error('Invalid credentials');
+  }
 
   const signOptions: SignOptions = {
     expiresIn: (process.env.JWT_EXPIRES_IN as ms.StringValue) || '1h',
   };
 
   const token = jwt.sign(
-    { id: admin._id, email: admin.email },
+    { id: user._id, email: user.email, role: user.role },
     process.env.JWT_SECRET as string,
     signOptions,
   );
 
-  return { token };
+  // এখানে token এবং role উভয়ই রিটার্ন করা হচ্ছে
+  return { token, role: user.role };
+};
+
+export const createFirstAdmin = async (data: IUser) => {
+  const existingAdminsCount = await UserModel.countDocuments({ role: 'admin' });
+  if (existingAdminsCount > 0) {
+    throw new Error('Admin user already exists. Cannot create a new one.');
+  }
+
+  const admin = await UserModel.create({ ...data, role: 'admin' });
+  return admin;
 };

@@ -7,6 +7,7 @@ import { studentRoutes } from './routes/student.routes';
 import { authRoutes } from './routes/auth.routes';
 import { noticeRoutes } from './routes/notice.route';
 import { resultRoutes } from './routes/result.routes';
+import { applicationRoutes } from './routes/application.routes';
 
 dotenv.config({ debug: false });
 
@@ -52,6 +53,7 @@ app.use('/api/v1/students', studentRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/notices', noticeRoutes);
 app.use('/api/v1/results', resultRoutes);
+app.use('/api/v1/applications', applicationRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({
