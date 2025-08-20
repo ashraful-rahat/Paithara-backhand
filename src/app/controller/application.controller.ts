@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import httpStatus from 'http-status';
 import { IApplication } from '../interfaces/application.interface';
@@ -13,7 +13,7 @@ const createApplication = async (req: Request, res: Response, next: NextFunction
     }
 
     const { userId, ...restOfData } = req.body;
-    
+
     // ফ্রন্টএন্ড থেকে আসা ডেটা
     const data: Partial<IApplication> = {
       ...restOfData,
@@ -22,7 +22,7 @@ const createApplication = async (req: Request, res: Response, next: NextFunction
     };
 
     const result = await applicationService.createApplication(data as IApplication);
-    
+
     res.status(httpStatus.CREATED).json({
       status: 'success',
       message: 'Application created successfully',
@@ -75,7 +75,7 @@ const updateApplication = async (req: Request, res: Response, next: NextFunction
       ...req.body,
       ...(fileUrl && { photo: fileUrl }), // যদি নতুন ছবি থাকে, তাহলে তা যুক্ত করা হবে
     };
-    
+
     const result = await applicationService.updateApplication(id, updateData);
 
     if (!result) {

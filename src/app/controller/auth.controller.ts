@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import * as authService from '../services/auth.service';
+import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
+import * as authService from '../services/auth.service';
 
 export const createFirstAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -31,14 +31,14 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
-    // এখানে 'role' কে গ্রহণ করুন
+
     const { token, role } = await authService.loginUser(email, password);
 
     res.status(httpStatus.OK).json({
       status: 'success',
       message: 'Login successful',
       token,
-      role, // 'role' কে রেসপন্সে যুক্ত করুন
+      role,
     });
   } catch (error) {
     next(error);

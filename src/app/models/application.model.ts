@@ -2,7 +2,6 @@ import { Schema, model } from 'mongoose';
 import { IApplication } from '../interfaces/application.interface';
 
 const applicationSchema = new Schema<IApplication>({
-
   studentNameBn: { type: String, required: true },
   studentNameEn: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
@@ -11,12 +10,10 @@ const applicationSchema = new Schema<IApplication>({
   religion: { type: String, required: true },
   bloodGroup: { type: String },
   photo: { type: String, required: true },
-  
- 
+
   applyingForClass: { type: String, required: true },
   previousSchoolName: { type: String, required: true },
   lastExamResult: { type: String, required: true },
-
 
   fatherNameBn: { type: String, required: true },
   fatherNameEn: { type: String, required: true },
@@ -28,12 +25,10 @@ const applicationSchema = new Schema<IApplication>({
   motherNid: { type: String, required: true, unique: true },
   guardianContact: { type: String, required: true },
 
-
   presentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
 
   userId: { type: String, required: true },
-  
 
   status: { type: String, enum: ['pending', 'accepted', 'rejected'], default: 'pending' },
   createdAt: { type: Date, default: Date.now },

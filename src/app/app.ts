@@ -2,12 +2,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
-import { staffRoutes } from './routes/staff.route';
-import { studentRoutes } from './routes/student.routes';
+import { applicationRoutes } from './routes/application.routes';
 import { authRoutes } from './routes/auth.routes';
 import { noticeRoutes } from './routes/notice.route';
 import { resultRoutes } from './routes/result.routes';
-import { applicationRoutes } from './routes/application.routes';
+import { staffRoutes } from './routes/staff.route';
+import { studentRoutes } from './routes/student.routes';
 
 dotenv.config({ debug: false });
 
@@ -15,33 +15,28 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://paithara-frontend.vercel.app",
-    ],
+    origin: ['http://localhost:3000', 'https://paithara-frontend.vercel.app'],
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
-// নতুন ডেটাবেজ কানেকশন লজিক
 const connectDB = async () => {
   try {
     const dbUrl = process.env.DATABASE_URL;
     if (!dbUrl) {
-      console.error("DATABASE_URL is not defined in environment variables.");
+      console.error('DATABASE_URL is not defined in environment variables.');
       return;
     }
 
-    // কানেকশন অপশনস যোগ করা হয়েছে, যা Vercel-এ সমস্যা সমাধানে সাহায্য করতে পারে
     await mongoose.connect(dbUrl, {
-      serverSelectionTimeoutMS: 5000, // 5 সেকেন্ডে টাইমআউট
+      serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       connectTimeoutMS: 10000,
     });
-    console.log("Database connected successfully!");
+    console.log('Database connected successfully!');
   } catch (error) {
-    console.error("Database connection error:", error);
+    console.error('Database connection error:', error);
   }
 };
 
