@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.applicationRoutes = void 0;
+const express_1 = require("express");
+const application_controller_1 = require("../controller/application.controller");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const fileUpload_1 = require("../middlewares/fileUpload");
+const parseJsonData_1 = require("../middlewares/parseJsonData");
+const router = (0, express_1.Router)();
+router.post('/create', (0, auth_middleware_1.authenticate)(['student', 'admin']), fileUpload_1.uploadSingle, parseJsonData_1.parseJsonData, application_controller_1.applicationController.createApplication);
+router.get('/', (0, auth_middleware_1.authenticate)(['admin']), application_controller_1.applicationController.getAllApplications);
+router.get('/:id', (0, auth_middleware_1.authenticate)(['admin']), application_controller_1.applicationController.getSingleApplication);
+router.patch('/:id', (0, auth_middleware_1.authenticate)(['admin']), fileUpload_1.uploadSingle, parseJsonData_1.parseJsonData, application_controller_1.applicationController.updateApplication);
+router.delete('/:id', (0, auth_middleware_1.authenticate)(['admin']), application_controller_1.applicationController.deleteApplication);
+exports.applicationRoutes = router;
