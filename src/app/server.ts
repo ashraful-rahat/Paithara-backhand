@@ -6,23 +6,18 @@ import app from './app';
 
 dotenv.config();
 
-// Get the DB_URL from config (loaded from .env)
-const DB_URL = config.database_url as string;
-
-// ডেটাবেজ কানেকশন ফাংশন
+// DB connect function
 const connectDB = async () => {
     try {
-        await mongoose.connect(DB_URL);
+        await mongoose.connect(config.database_url as string);
         console.log('✅ Connected to MongoDB');
     } catch (error) {
         console.error('❌ MongoDB connection error:', error);
-        // কানেকশন ফেল করলে অ্যাপ বন্ধ করে দেবে
         process.exit(1);
     }
 };
 
-// লোকাল বা প্রোডাকশন পরিবেশের জন্য সার্ভার চালু
-// এটি লোকাল ডেভেলপমেন্টের জন্য, Vercel এর জন্য নয়।
+// লোকাল ডেভেলপমেন্টের জন্য
 if (process.env.NODE_ENV !== 'production') {
     const PORT = config.port || 5000;
     connectDB().then(() => {
@@ -32,6 +27,5 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-// Vercel-এর জন্য এক্সপ্রেস অ্যাপ এক্সপোর্ট
-// এটি Vercel এর প্রধান এন্ট্রি পয়েন্ট
-export default app;
+// Vercel এর জন্য শুধু export
+module.exports = app;
