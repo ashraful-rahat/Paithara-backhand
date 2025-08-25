@@ -9,8 +9,8 @@ const student_controller_1 = require("../controller/student.controller");
 const fileUpload_1 = require("../middlewares/fileUpload");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const router = express_1.default.Router();
-router.get('/', (0, auth_middleware_1.authenticate)(), student_controller_1.studentController.getAllStudents);
-router.get('/:id', (0, auth_middleware_1.authenticate)(), student_controller_1.studentController.getSingleStudent);
+router.get('/', student_controller_1.studentController.getAllStudents);
+router.get('/:id', student_controller_1.studentController.getSingleStudent);
 // শুধুমাত্র অ্যাডমিনদের জন্য
 router.post('/create', (0, auth_middleware_1.authenticate)(['admin']), fileUpload_1.uploadSingle, student_controller_1.studentController.createStudent);
 router.patch('/:id', (0, auth_middleware_1.authenticate)(['admin']), fileUpload_1.uploadSingle, student_controller_1.studentController.updateStudent);

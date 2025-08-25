@@ -24,9 +24,9 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!globalAny._mongo.promise) {
         globalAny._mongo.promise = mongoose_1.default.connect(config_1.default.database_url, {
             bufferCommands: false,
-            connectTimeoutMS: 10000,
+            connectTimeoutMS: 30000,
             socketTimeoutMS: 45000,
-            serverSelectionTimeoutMS: 5000,
+            serverSelectionTimeoutMS: 30000,
         });
     }
     globalAny._mongo.conn = yield globalAny._mongo.promise;

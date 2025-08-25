@@ -18,9 +18,9 @@ const connectDB = async () => {
   if (!globalAny._mongo.promise) {
     globalAny._mongo.promise = mongoose.connect(config.database_url, {
       bufferCommands: false,
-      connectTimeoutMS: 10000,
+      connectTimeoutMS: 30000,
       socketTimeoutMS: 45000,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 30000,
     });
   }
 
