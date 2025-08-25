@@ -6,8 +6,8 @@ import { authenticate } from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
-router.get('/', authenticate(), studentController.getAllStudents);
-router.get('/:id', authenticate(), studentController.getSingleStudent);
+router.get('/',  studentController.getAllStudents);
+router.get('/:id', studentController.getSingleStudent);
 
 // শুধুমাত্র অ্যাডমিনদের জন্য
 router.post('/create', authenticate(['admin']), uploadSingle, studentController.createStudent);
